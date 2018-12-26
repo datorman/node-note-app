@@ -52,11 +52,11 @@ app.delete('/todos/:id', (request,response) => {
     if(!ObjectID.isValid(id)){
         return response.status(404).send();
     };
-    Todo.findByIdAndDelete(id).then((doc) => {
-        if(!doc){
+    Todo.findByIdAndDelete(id).then((todo) => {
+        if(!todo){
             return response.status(404).send();
-        }
-        response.send({doc});
+        };
+        response.send({todo});
     }).catch((e) => {
         return response.status(400).send();
     });
