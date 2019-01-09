@@ -6,7 +6,7 @@ const {ObjectID} = require('mongodb');
 const {app} = require('./../server');
 const {todos, populateTodos,users,populateUsers} = require('./seed/seed');
 const {Todo} = require('./../models/todo');
-const User = require('./../models/user');
+const {User} = require('./../models/user');
 
 beforeEach(populateUsers);
 beforeEach(populateTodos);
@@ -199,18 +199,30 @@ describe('POST /users', () => {
                 if(err){
                     return done(err);  
                 }
-                User.findOne({email:email}).then((user) => {
+                User.findOne({email}).then((user) => {
                     expect(user).toBeTruthy();
-                    expect(user.password).toNotBe(password);
+                    expect(user.password).not.toBe(password);
                     done();
                 }); 
             });
 
     });
     it('should return validation errors of request invalid', (done) => {
-
+        var email = '';
+        var password = '123';
+        request(app)
+            .post('/users')
+            .send({email,password})
+            .expect(400)
+            .end(done);
     });
     it('should not create user if email in use', (done) =>{
-
+        var email = 'mike@example.com';
+        var password = 'useronepass';
+        request(app)
+        .post('/users')
+        .send({email,password})
+        .expect(400)
+        .end(done);
     });
 });
