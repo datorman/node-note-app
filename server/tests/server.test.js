@@ -8,10 +8,12 @@ const {todos, populateTodos,users,populateUsers} = require('./seed/seed');
 const {Todo} = require('./../models/todo');
 const {User} = require('./../models/user');
 
+
 beforeEach(populateUsers);
 beforeEach(populateTodos);
 
 describe('POST - TODOS', () =>{
+
     it('should create a new todo', (done) =>{
         var text = 'Test Todo Text';
         request(app)
@@ -32,7 +34,7 @@ describe('POST - TODOS', () =>{
                     done();
                 }).catch((error)=>{
                     done(error);
-                })
+                });
             });
     });
     it('Should not create a new todo bad data', (done) =>{
